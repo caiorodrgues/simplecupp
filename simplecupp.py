@@ -27,6 +27,8 @@ print("")
 print(GREEN + "[" + RESET + "!" + GREEN + "]" + RESET + ' Se você não tiver a resposta para alguma das perguntas abaixo, apenas tecle "enter"')
 
 nome = input(GREEN + ">>>" + RESET + " Primeiro nome: ")
+if nome == '':
+    print(GREEN + "[" + RESET + "!" + GREEN + "]" + RESET + ' Obs: sem o nome, as senhas geradas serão menores e menos efetivas')
 
 # não sabemos quantos sobrenomes serão inseridos <-- separar pelos espaços e armazenar em uma lista
 sobrenome = input(GREEN + ">>>" + RESET + " Sobrenome: ").split(' ')
@@ -49,7 +51,7 @@ mes = ''
 nascimento = ''
 datanascimento = ''
 
-datanascimento = input(GREEN + ">>>" + RESET + " Data de nascimento ou só o ano (DDMMAAAA) ou (AAAA):  ")
+datanascimento = input(GREEN + ">>>" + RESET + " Data de nascimento ou só o ano (DDMMAAAA) ou (AAAA): ")
 if len(datanascimento) == 4:
     ano = datanascimento
 
@@ -59,7 +61,7 @@ elif len(datanascimento) == 8:
     dia = datanascimento[0] + datanascimento[1]
     mes = datanascimento[2] + datanascimento[3]
 
-if len(nascimento) != 8 and len(nascimento) != 4 and datanascimento != '':
+if len(nascimento) != 8 and len(datanascimento) != 4 and datanascimento != '':
     print(RED + "[" + RESET + "!" + RED + "]" + RESET + " Data de nascimento não registrada, é aceito apenas 4 ou 8 dígitos")
     # atribuindo um valor "vazio" à variavel para que ela não apareça nas concatenações dos loops mais a frente
     nascimento = ''
@@ -76,6 +78,10 @@ mae = input(GREEN + ">>>" + RESET + " Mãe: ")
 if mae != '':
     mae = mae.lower()
 
+filho = input(GREEN + ">>>" + RESET + " Nome do filho: ")
+if filho != '':
+    filho = filho.lower()
+
 numero = input(GREEN + ">>>" + RESET + " Celular ou telefone (Sem DDD): ")
 
 # declarando as variáveis como vazias para não dar problema caso a data inteira não seja especificada
@@ -91,12 +97,14 @@ elif len(str(numero)) == 8:
     telefone = numero
 
 pet = input(GREEN + ">>>" + RESET + " Nome do pet: ")
+if pet != '':
+    pet = pet.lower()
 
 time = input(GREEN + ">>>" + RESET + " Time preferido: ")
 if time != '':
     time = time.lower()
 
-extra = input(GREEN + "[" + BLUE + "+" + GREEN + "]" + RESET + " Gostaria de adicionar alguma palavra chave extra? [N/y]: ")
+extra = input(GREEN + "[" + BLUE + "+" + GREEN + "]" + RESET + " Gostaria de adicionar alguma palavra chave extra? Y/[N]: ")
 extralower = extra.lower()
 if extralower in ['y', 'yes', 'sim', 's', 'yep', 'ye']:
     extra = input(GREEN + ">>>" + RESET + " Palavra chave extra: ")
@@ -106,15 +114,14 @@ else:
     print(RED + "[" + RESET + "!" + RED + "]" + RESET + " Opção não válida, palavra chave extra não foi registrado")
     extra = ''
 
-nomearquivo = input(GREEN + "[" + BLUE + "+" + GREEN + "]" + RESET + " Gostaria de dar um nome específico ao arquivo? [N/y]: ")
+nomearquivo = input(GREEN + "[" + BLUE + "+" + GREEN + "]" + RESET + " Gostaria de dar um nome específico ao arquivo? Y/[N]: ")
 nomearquivolower = nomearquivo.lower()
 if nomearquivolower in ['y', 'yes', 'sim', 's', 'yep', 'ye']:
     nomearquivo = input(GREEN + ">>>" + RESET + " Digite o nome do arquivo sem espaço/caracteres especiais: ")
 elif nomearquivolower in ['n', 'no', 'nah', 'nao', 'nop']:
     nomearquivo = nome
 
-# arquivo = open('palavras.txt', 'a') <-- append ("\n")
-# arquivo.write('exemplo\n')
+# Daqui pra baixo é as parte que o programa pega as informações e escreve no arquivo de texto
 
 arquivo = open(nomearquivo if nomearquivo != '' else nome if nome != '' else 'cupp', 'w')
 
@@ -260,4 +267,43 @@ if nome != '':
             arquivo.write(nomeleet + primeirosobrenomeleet + ano + "\n")
         if nascimento != '':
             arquivo.write(nomeleet + primeirosobrenomeleet + nascimento + "\n")
+        if ultimosobrenome != '':
+            arquivo.write(primeirosobrenome + ultimosobrenome + nome + "\n")
+            arquivo.write(primeirosobrenome + ultimosobrenome + ano + "\n")
+            arquivo.write(primeirosobrenome + ano + "\n")
+            arquivo.write(primeirosobrenome + nascimento + "\n")
+            arquivo.write(primeirosobrenome + primeirosobrenome + "\n")
 
+if filho != '':
+    if nome != '':
+        arquivo.write(nome + filho + "\n")
+        if ano != '':
+            arquivo.write(nome + filho + ano + "\n")
+        arquivo.write(filho + ano + "\n")
+        arquivo.write(ano + filho + "\n")
+    if pet != '':
+        arquivo.write(filho + pet + "\n")
+        if ano != '':
+            arquivo.write(filho + pet + ano + "\n")
+            if nascimento != '':
+                arquivo.write(filho + pet + nascimento + "\n")
+    if mae != '':
+        arquivo.write(mae + filho + "\n")
+
+# Invertendo o nome
+nomeinvertido = ''
+if nome != '':
+    for i in range(len(nome)):
+        i += 1
+        nomeinvertido = nomeinvertido + nome[len(nome) - i]
+
+if nomeinvertido != '':
+    if ano != '':
+        arquivo.write(nomeinvertido + ano + "\n")
+    if nascimento != '':
+        arquivo.write(nomeinvertido + nascimento + "\n")
+    if sobrenome != '':
+        arquivo.write(nomeinvertido + primeirosobrenome + "\n")
+        if ano != '':
+            arquivo.write(nomeinvertido + primeirosobrenome + ano + "\n")
+    
