@@ -144,7 +144,6 @@ if telefone != '':
     arquivo.write(nome + telefone[3] + telefone[4] + telefone[5] + telefone[6] + telefone[7] + "\n")
 
 if nome != '':
-    arquivo.write(nome + pet + "\n")
     arquivo.write(nome + dia + mes + "\n")
     arquivo.write(nome + ano + "\n")
     if extra != '':
